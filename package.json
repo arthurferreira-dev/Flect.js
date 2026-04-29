@@ -1,0 +1,16 @@
+{
+  "name": "flect.js",
+  "version": "1.0.0",
+  "types": "src/types/flect.d.ts",
+  "description": "A set of tools for manipulating the DOM as easily as possible",
+  "main": "src/index.js",
+  "keywords": [
+    "DOM",
+    "manipulation",
+    "JavaScript",
+    "library"
+  ],
+  "author": "arthurferreira-dev",
+  "license": "MIT",
+  "type": "module"
+}
