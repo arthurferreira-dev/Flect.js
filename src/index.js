@@ -37,4 +37,10 @@ export const flect = {
   headTag,
   bodyTag,
   setAttr,
+  removeAttr,
+  onEvent,
+  offEvent,
+  show,
+  hide,
+  hasClass,
 };

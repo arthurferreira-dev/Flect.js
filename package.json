@@ -1,16 +1,28 @@
 {
   "name": "flect.js",
   "version": "1.0.0",
-  "types": "src/types/flect.d.ts",
+  "types": "./src/types/flect.d.ts",
   "description": "A set of tools for manipulating the DOM as easily as possible",
-  "main": "src/index.js",
+  "main": "./src/index.js",
+  "module": "./src/index.js",
+  "exports": {
+    ".": {
+      "import": "./src/index.js",
+      "require": "./src/index.js"
+    }
+  },
+  "bin": "./src/index.js",
   "keywords": [
     "DOM",
     "manipulation",
     "JavaScript",
     "library"
   ],
+  "bugs": {
+    "url": "https://github.com/arthurferreira-dev/Flect.js/issues"
+  },
   "author": "arthurferreira-dev",
+  "homepage": "https://github.com/arthurferreira-dev/Flect.js#readme",
   "license": "MIT",
   "type": "module"
 }
