@@ -5,6 +5,19 @@ Funções auxiliares leves para manipulação do DOM.
 
 ---
 
+## Installation with packager manager / Instalação com gerenciador de pacote
+
+```bash
+## npm
+npm i flect.js
+
+## yarn
+yarn add flect.js
+
+## bun
+bun add flect.js
+```
+
 ## `get(id, format)`
 
 **EN:** Selects a DOM element using different query strategies based on the `format` argument.
@@ -253,3 +266,9 @@ flect.addClass(div, "card");
 flect.setAttr(div, "id", "my-card");
 flect.append(flect.bodyTag, div);
 ```
+
+---
+
+## View in NPM / Veja na NPM
+
+[Flect.js](https://www.npmjs.com/package/flect.js)
