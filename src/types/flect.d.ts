@@ -1,66 +1,74 @@
-type GetFormat = "query" | "byId" | "byClass" | "byTag";
+type GetFormat = "query" | "queryAll" | "byId" | "byClass" | "byTag";
 
-type GetReturn<F extends GetFormat> =
-  F extends "query"   ? Element | null :
-  F extends "byId"    ? HTMLElement | null :
-  F extends "byClass" ? HTMLCollectionOf<Element> :
-  F extends "byTag"   ? HTMLCollectionOf<Element> :
-  never;
-
-declare function get<F extends GetFormat>(id: string, format: F): GetReturn<F>;
-
-declare function createTag<T extends keyof HTMLElementTagNameMap>(tag: T): HTMLElementTagNameMap[T];
-
-declare function addText(el: HTMLElement, text: string): void;
-declare function addHTML(el: HTMLElement, html: string): void;
-declare function append(parent: HTMLElement, child: HTMLElement): void;
-
-declare const headTag: HTMLHeadElement;
-declare const bodyTag: HTMLBodyElement;
-
-declare function addClass(el: HTMLElement, ...className: string[]): void;
-declare function removeClass(el: HTMLElement, ...className: string[]): void;
-declare function toggleClass(el: HTMLElement, className: string): void;
-declare function replaceClass(el: HTMLElement, oldClass: string, newClass: string): void;
-
-declare function setAttr(el: HTMLElement, attr: string, value: string): void;
-declare function removeAttr(el: HTMLElement, attr: string): void;
-
-declare function onEvent<K extends keyof HTMLElementEventMap>(
-  el: HTMLElement,
-  event: K,
-  callback: (e: HTMLElementEventMap[K]) => void
-): void;
-
-declare function offEvent<K extends keyof HTMLElementEventMap>(
-  el: HTMLElement,
-  event: K,
-  callback: (e: HTMLElementEventMap[K]) => void
-): void;
-
-declare function show(el: HTMLElement): void;
-declare function hide(el: HTMLElement): void;
-declare function hasClass(el: HTMLElement, className: string): boolean;
+type GetReturn<F extends GetFormat> = F extends "query"
+  ? Element | null
+  : F extends "queryAll"
+    ? NodeListOf<Element>
+    : F extends "byId"
+      ? HTMLElement | null
+      : F extends "byClass"
+        ? HTMLCollectionOf<Element>
+        : F extends "byTag"
+          ? HTMLCollectionOf<Element>
+          : never;
 
 export declare const flect: {
-  get: typeof get;
-  createTag: typeof createTag;
-  addText: typeof addText;
-  addHTML: typeof addHTML;
-  append: typeof append;
-  headTag: typeof headTag;
-  bodyTag: typeof bodyTag;
-  addClass: typeof addClass;
-  removeClass: typeof removeClass;
-  toggleClass: typeof toggleClass;
-  replaceClass: typeof replaceClass;
-  setAttr: typeof setAttr;
-  removeAttr: typeof removeAttr;
-  onEvent: typeof onEvent;
-  offEvent: typeof offEvent;
-  show: typeof show;
-  hide: typeof hide;
-  hasClass: typeof hasClass;
+  get<F extends GetFormat>(id: string, format: F): GetReturn<F>;
+
+  createTag<K extends keyof HTMLElementTagNameMap>(
+    tag: K,
+  ): HTMLElementTagNameMap[K];
+  create<K extends keyof HTMLElementTagNameMap>(
+    tag: K,
+    attrs?: Record<string, string | EventListener>,
+    ...children: (string | HTMLElement)[]
+  ): HTMLElementTagNameMap[K];
+  textNode(text: string): Text;
+
+  addText(el: HTMLElement, text: string): void;
+  addHTML(el: HTMLElement, html: string): void;
+  write(...content: string[]): void;
+
+  append(parent: HTMLElement, child: HTMLElement): void;
+
+  addClass(el: Element, ...className: string[]): void;
+  addClassAll(
+    elements: NodeListOf<Element> | HTMLCollectionOf<Element> | Element,
+    ...classNames: string[]
+  ): void;
+  removeClass(el: Element, ...className: string[]): void;
+  toggleClass(el: Element, ...className: string[]): void;
+  replaceClass(el: Element, oldClass: string, newClass: string): void;
+  hasClass(el: Element, className: string): boolean;
+
+  setAttr(el: Element, attr: string, value: string): void;
+  removeAttr(el: Element, attr: string): void;
+
+  onEvent<K extends keyof HTMLElementEventMap>(
+    el: HTMLElement,
+    event: K,
+    callback: (this: HTMLElement, ev: HTMLElementEventMap[K]) => void,
+  ): void;
+  offEvent<K extends keyof HTMLElementEventMap>(
+    el: HTMLElement,
+    event: K,
+    callback: (this: HTMLElement, ev: HTMLElementEventMap[K]) => void,
+  ): void;
+
+  show(el: HTMLElement): void;
+  hide(el: HTMLElement): void;
+
+  headTag: HTMLHeadElement;
+  bodyTag: HTMLBodyElement;
+  titleTag: string;
+  url: string;
+
+  totalScripts: number;
+  totalLinks: number;
+  totalImages: number;
+  totalForms: number;
+  totalAnchors: number;
+  totalApplets: number;
 };
 
 export type Flect = typeof flect;

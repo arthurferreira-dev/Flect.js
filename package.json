@@ -1,6 +1,6 @@
 {
   "name": "flect.js",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "types": "./src/types/flect.d.ts",
   "description": "A set of tools for manipulating the DOM as easily as possible",
   "main": "./src/index.js",
@@ -8,7 +8,8 @@
   "exports": {
     ".": {
       "import": "./src/index.js",
-      "require": "./src/index.js"
+      "require": "./src/index.js",
+      "types": "./src/types/flect.d.ts"
     }
   },
   "bin": "./src/index.js",
