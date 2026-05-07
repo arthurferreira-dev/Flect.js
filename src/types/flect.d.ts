@@ -1,4 +1,13 @@
-type GetFormat = "query" | "queryAll" | "byId" | "byClass" | "byTag";
+type GetFormat =
+  | "query"
+  | "queryAll"
+  | "byId"
+  | "byClass"
+  | "byTag"
+  | "byName"
+  | "byTagNS"
+  | "fromPoint"
+  | "fromPoints";
 
 type GetReturn<F extends GetFormat> = F extends "query"
   ? Element | null
@@ -10,14 +19,20 @@ type GetReturn<F extends GetFormat> = F extends "query"
         ? HTMLCollectionOf<Element>
         : F extends "byTag"
           ? HTMLCollectionOf<Element>
-          : never;
+          : F extends "byName"
+            ? NodeListOf<Element>
+            : F extends "byTagNS"
+              ? HTMLCollectionOf<Element>
+              : F extends "fromPoint"
+                ? Element | null
+                : F extends "fromPoints"
+                  ? Element[]
+                  : never;
 
 export declare const flect: {
-  get<F extends GetFormat>(id: string, format: F): GetReturn<F>;
+  get<F extends GetFormat>(id: F extends "byTagNS" | "fromPoint" | "fromPoints" ? readonly [string, ...any[]] : string, format: F): GetReturn<F>;
 
-  createTag<K extends keyof HTMLElementTagNameMap>(
-    tag: K,
-  ): HTMLElementTagNameMap[K];
+  createTag<K extends keyof HTMLElementTagNameMap>(tag: K): HTMLElementTagNameMap[K];
   create<K extends keyof HTMLElementTagNameMap>(
     tag: K,
     attrs?: Record<string, string | EventListener>,
@@ -26,10 +41,33 @@ export declare const flect: {
   textNode(text: string): Text;
 
   addText(el: HTMLElement, text: string): void;
-  addHTML(el: HTMLElement, html: string): void;
+  addTextHTML(el: HTMLElement, html: string): void;
+  addTextContent(el: Node, text: string): void;
   write(...content: string[]): void;
 
-  append(parent: HTMLElement, child: HTMLElement): void;
+  setStyle<K extends keyof CSSStyleDeclaration>(el: HTMLElement, prop: K, value: string): void;
+
+  append(parent: Node, child: Node): void;
+  remove(el: ChildNode): void;
+  replace(newEl: Node, oldEl: Node): void;
+  contain(parent: Node, node: Node): boolean;
+  outerHTML(element: Element): string;
+  clone(element: Node, deep?: boolean): Node;
+
+  nodeName(el: Node): string;
+  nodeType(el: Node): number;
+  nodeValue(el: Node): string | null;
+  parentNode(el: Node): ParentNode | null;
+  getChildNodes(el: Node): NodeListOf<ChildNode>;
+  firstChild(el: Node): ChildNode | null;
+  lastChild(el: Node): ChildNode | null;
+  nextSibling(el: Node): ChildNode | null;
+  prevSibling(el: Node): ChildNode | null;
+  mergeTextNode(el: Node): void;
+  ownerDoc(el: Node): Document | null;
+
+  ancestor(el: Element, selector: string): Element | null;
+  fits(el: Element, selector: string): boolean;
 
   addClass(el: Element, ...className: string[]): void;
   addClassAll(
@@ -61,6 +99,10 @@ export declare const flect: {
   headTag: HTMLHeadElement;
   bodyTag: HTMLBodyElement;
   titleTag: string;
+  doctype: DocumentType | null;
+  encoding: string;
+  view: WindowProxy | null;
+  domain: string;
   url: string;
 
   totalScripts: number;

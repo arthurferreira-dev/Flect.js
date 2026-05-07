@@ -4,12 +4,37 @@ const get = (id, format) => {
   if (format === "byId") return document.getElementById(id);
   if (format === "byClass") return document.getElementsByClassName(id);
   if (format === "byTag") return document.getElementsByTagName(id);
+  if (format === "byName") return document.getElementsByName(id);
+  if (format === "byTagNS") return document.getElementsByTagNameNS(...id);
+  if (format === "fromPoint") return document.elementFromPoint(...id);
+  if (format === "fromPoints") return document.elementsFromPoint(...id);
+  return null;
 };
 
 const createTag = (tag) => document.createElement(tag);
 const addText = (el, text) => (el.innerText = text);
-const addHTML = (el, html) => (el.innerHTML = html);
+const addTextHTML = (el, html) => (el.innerHTML = html);
+const addTextContent = (el, text) => (el.textContent = text);
+const setStyle = (el, prop, value) => (el.style[prop] = value);
 const append = (parent, child) => parent.appendChild(child);
+const remove = (el) => el.parentNode.removeChild(el);
+const contain = (parent, node) => parent.contains(node);
+const replace = (newEl, oldEl) => oldEl.parentNode.replaceChild(newEl, oldEl);
+const outerHTML = (element) => element.outerHTML;
+const clone = (element, deep = true) => element.cloneNode(deep);
+const nodeName = (el) => el.nodeName;
+const nodeType = (el) => el.nodeType;
+const nodeValue = (el) => el.nodeValue;
+const parentNode = (el) => el.parentNode;
+const getChildNodes = (el) => el.childNodes;
+const firstChild = (el) => el.firstChild;
+const lastChild = (el) => el.lastChild;
+const nextSibling = (el) => el.nextSibling;
+const prevSibling = (el) => el.previousSibling;
+const mergeTextNode = (el) => el.normalize();
+const ownerDoc = (el) => el.ownerDocument;
+const ancestor = (el, selector) => el.closest(selector);
+const fits = (el, selector) => el.matches(selector);
 
 const headTag = document.head;
 const bodyTag = document.body;
@@ -69,8 +94,12 @@ export const flect = {
   get,
   createTag,
   addText,
-  addHTML,
+  addTextHTML,
+  addTextContent,
+  setStyle,
   append,
+  outerHTML,
+  clone,
   addClass,
   removeClass,
   toggleClass,
@@ -100,4 +129,20 @@ export const flect = {
   textNode,
   addClassAll,
   url,
+  mergeTextNode,
+  ownerDoc,
+  remove,
+  contain,
+  replace,
+  nodeName,
+  nodeType,
+  nodeValue,
+  parentNode,
+  getChildNodes,
+  firstChild,
+  lastChild,
+  nextSibling,
+  prevSibling,
+  ancestor,
+  fits,
 };
